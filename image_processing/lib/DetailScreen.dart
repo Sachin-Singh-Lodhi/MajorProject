@@ -23,8 +23,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
   List<Rect> rect = [];
 
-  getImageFromGallery() async {
-    var tempStore = await ImagePicker().getImage(source: ImageSource.gallery);
+  getImageFrom(ImageSource source) async {
+    var tempStore = await ImagePicker().getImage(source: source);
 
     imageFile = await tempStore?.readAsBytes();
     imageFile = await decodeImageFromList(imageFile);
@@ -126,13 +126,14 @@ class _DetailScreenState extends State<DetailScreen> {
       appBar: AppBar(
         title: Text(widget.selectedItem),
         actions: [
-          RaisedButton(
-            onPressed: getImageFromGallery,
+          ElevatedButton(
+            onPressed: () {
+              pickImage();
+            },
             child: Icon(
               Icons.add_a_photo,
               color: Colors.white,
             ),
-            color: Colors.blue,
           )
         ],
       ),
@@ -170,7 +171,7 @@ class _DetailScreenState extends State<DetailScreen> {
             SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(result),
+              child: Text('$result'),
             ),
           ],
         ),
@@ -181,6 +182,31 @@ class _DetailScreenState extends State<DetailScreen> {
         },
         child: Icon(Icons.check),
       ),
+    );
+  }
+
+  void pickImage() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Select image from'),
+          children: [
+            ListTile(
+              title: Text('Camera'),
+              onTap: () {
+                getImageFrom(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              title: Text('Gallery'),
+              onTap: () {
+                getImageFrom(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

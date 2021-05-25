@@ -1,29 +1,3 @@
-/*import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:image_processing/homepage.dart';
-import 'homepage.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Homepage(),
-    );
-  }
-}
-*/
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: HomeScreen(),
   ));
 }
@@ -43,11 +18,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> itemsList = [
-    'Text Scanner',
-    'Barcode Scanner',
-    'Label Scanner',
-    'Face Detection'
+  List<Map<String, String>> list = [
+    {
+      'title': 'Text Scanner',
+      'image': 'assets/img1.jpg',
+      'description': 'Dialog string',
+    },
+    {
+      'title': 'Label Scanner',
+      'image': 'assets/img1.jpg',
+      'description': 'Dialog string',
+    },
+    {
+      'title': 'Face Detection',
+      'image': 'assets/img1.jpg',
+      'description': 'Dialog string',
+    },
   ];
 
   @override
@@ -57,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Image Processing using AI'),
       ),
       body: ListView.builder(
-          itemCount: itemsList.length,
+          itemCount: list.length,
           itemBuilder: (context, index) {
             return Card(
               child: Column(
@@ -67,22 +53,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: Image.asset('img1.jpg', fit: BoxFit.cover),
+                          child: Image.asset(list[index]['image'],
+                              fit: BoxFit.cover),
                         ),
                         Positioned(
-                          bottom: 16.0,
-                          left: 16.0,
-                          right: 16.0,
-                          child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Card 4',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4
-                                    .copyWith(color: Colors.white),
-                              )),
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            color: Colors.blueAccent,
+                            padding: const EdgeInsets.all(16),
+                            child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '${list[index]['title']}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: Colors.white),
+                                )),
+                          ),
                         )
                       ],
                     ),
@@ -90,14 +81,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      FlatButton(onPressed: () {}, child: Text('Details')),
-                      FlatButton(
+                      TextButton(
+                          onPressed: () {
+                            showDetailsDialog(context,
+                                title: list[index]['title'],
+                                description: list[index]['description']);
+                          },
+                          child: Text('Details')),
+                      TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailScreen(itemsList[index]),
+                                    DetailScreen('${list[index]['title']}'),
                               ),
                             );
                           },
@@ -107,18 +104,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             );
-            // child: ListTile(
-                //   title: Text(itemsList[index]),
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => DetailScreen(itemsList[index]),
-                //       ),
-                //     );
-                //   },
-                // ),
           }),
+    );
+  }
+
+  void showDetailsDialog(BuildContext context,
+      {@required String title, @required String description}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('$title'),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('$description'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

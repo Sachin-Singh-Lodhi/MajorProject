@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127295161898",
+    "project_id": "clarifai-cf8d1",
+    "storage_bucket": "clarifai-cf8d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127295161898:android:047c0915ec2570e9176553",
+        "android_client_info": {
+          "package_name": "com.example.image_processing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127295161898-qefvpq8qk2d8vhh4620spknll7j3ojto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqwf_wNXdJ2PMnTakkDjE7Rp7Kz0bX_7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127295161898-qefvpq8qk2d8vhh4620spknll7j3ojto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
